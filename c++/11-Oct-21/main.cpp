@@ -34,9 +34,41 @@ double third(double x, int n){
     return r;
 }
 
+double fourth(double prec, int &n){
+    n = 2;
+    double previous=4,  current=4./3;
+    bool neg = false;
+    int i=5;
+    while(abs(previous-current)>prec){
+        previous = current;
+        if (neg) {
+            current-=1./i;
+            neg = true;
+        } else {
+            current+=1./i;
+            neg = false;
+        }
+        i+=2;
+        n++;
+    }
+    return current;
+}
+
+double fifth(int n){
+    double c = 0;
+    for (int i = 0; i < n; ++i) {
+        int x=rand()%100, y=rand()%100;
+        if (x*x+y*y<=10000) c+=1;
+    }
+    return c/(n-c)*4;
+}
+
 int main(){
     std::cout << first() << std::endl << "________" << std::endl;
     second(11);
-    std::cout << "________" << std::endl << third(1000, 10) << std::endl;
+    int n = 0;
+    std::cout << "________" << std::endl << third(1000, 10) << std::endl << "________" << std::endl;
+    std::cout << fourth(0.0001, n);
+    std::cout << std::endl << "________" << std::endl   << fifth(n);
     return 0;
 }
