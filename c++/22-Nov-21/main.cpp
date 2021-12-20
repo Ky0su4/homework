@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iomanip>
 
-std::fstream& askFile(std::fstream &fstream, const char* type, bool read){
+std::string askFile(std::fstream &fstream, const char* type, bool read){
     std::cout << type << " file: \t";
     std::string file;
     std::cin >> file;
@@ -12,6 +12,7 @@ std::fstream& askFile(std::fstream &fstream, const char* type, bool read){
     else
         fstream.open(file, std::ios::binary | std::ios::out);
     if (!fstream) throw "Unable to open file";
+    return file;
 }
 
 
@@ -19,11 +20,11 @@ int main()
 {
     std::fstream input, output;
 
-    askFile(input, "Input", true);
+    auto filename = askFile(input, "Input", true);
     askFile(output, "Output", false);
 
-
-    int s, n = 0;
+    int s;
+    int n = 0;
     while ((s = input.get()) != EOF) {
         output << std::left << std::setfill('0');
         output << std::internal << std::setw(16) << std::hex << n << ":";
@@ -52,17 +53,34 @@ int main()
                 flag = true;
             }
         }
-        output << "  ";
-        input.seekg(n,std::ios::beg);
-        for (int i = 0; i < 16; ++i) {
-            s = input.get();
-            if (s <= 33) output.put('.');
-            else output.put(s);
+        if (!flag) {
+            output << "  ";
+            input.seekg(n, std::ios::beg);
+            for (int i = 0; i < 16; ++i) {
+                s = input.get();
+                if (s <= 33) output.put('.');
+                else output.put(s);
+            }
+            output << std::endl;
+            output.flush();
+            n += 16;
         }
-        output << std::endl;
-        output.flush();
-        n += 16;
     }
+
+    // Костыль, я открываю и дочитываю файл после дохождения до конца, без понятия почему не работает, стоит попробовать сделать через буффер
+
+    input.close();
+    input.open(filename,std::ios::binary | std::ios::in);
+    output << "  ";
+    input.seekg(n, std::ios::beg);
+    for (int i = 0; i < 16; ++i) {
+        s = input.get();
+        if (s <= 33) output.put('.');
+        else output.put(s);
+    }
+    output << std::endl;
+    output.flush();
+    n += 16;
 
     return 0;
 }
