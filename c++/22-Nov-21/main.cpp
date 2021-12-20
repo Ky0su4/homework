@@ -17,7 +17,7 @@ std::string askFile(std::fstream &fstream, const char* type, bool readMode){
 
 int main()
 {
-    int line;
+    int line, enumerator;
     std::fstream input, output;
     std::string filename;
     bool passedInput = true;
@@ -50,13 +50,21 @@ int main()
     do {
         std::cout << "Line length: \t";
         std::cin >> line;
+        if (line==0) line = 16;
     } while (line<=0);
+    do {
+        std::cout << "Enumerator length: \t";
+        std::cin >> enumerator;
+        if (enumerator==0) enumerator=8;
+    } while (enumerator<=0);
+
+
 
     int s, n;
 
     for (n = 0; (s = input.get()) != EOF; n += line) {
         output << std::left << std::setfill('0') << std::internal
-        << std::setw(16) << std::hex << n << ": " << std::setfill(' ') << std::right; // Из референса к iomanip
+        << std::setw(enumerator) << std::hex << n << ": " << std::setfill(' ') << std::right; // Из референса к iomanip
         bool flag = false; // Если flag = true, значит мы дошли до конца, и необходимо записать пробелы
         for (int i = 0; i < line; ++i) {
             if (i%8 == 0) if (i!=0) output << " |";
