@@ -30,7 +30,8 @@ int main()
         output << std::internal << std::setw(16) << std::hex << n << ":";
         output << std::setfill(' ') << std::right;
         bool flag = false;
-        for (int i = 0; i < 8; ++i) {
+        for (int i = 0; i < 16; ++i) {
+            if (i == 8) output << " |";
             if (flag) {
                 output << "   ";
                 continue;
@@ -41,18 +42,7 @@ int main()
                 flag = true;
             }
         }
-        output << " |";
-        for (int i = 0; i < 8; ++i) {
-            if (flag) {
-                output << "   ";
-                continue;
-            }
-            output << std::setw(3) << s;
-            s = input.get();
-            if (s == EOF) {
-                flag = true;
-            }
-        }
+
         if (!flag) {
             output << "  ";
             input.seekg(n, std::ios::beg);
