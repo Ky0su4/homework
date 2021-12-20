@@ -20,12 +20,17 @@ int main()
     int line;
     std::fstream input, output;
     std::string filename;
-    try {
-        filename = askFile(input, "Input", true); // Название файла необходимо для повторного открытия в конце
-    } catch (const char* exception) {
-        std::cout << "Error: " << exception;
-        return 1;
-    }
+    bool passedInput = true;
+
+    do{
+        try {
+            filename = askFile(input, "Input", true); // Название файла необходимо для повторного открытия в конце
+            passedInput = true;
+        } catch (const char* exception) {
+            std::cout << "Error: " << exception << std::endl;
+            passedInput = false;
+        }
+    } while (!passedInput);
 
     try {
         askFile(output, "Output", false);
