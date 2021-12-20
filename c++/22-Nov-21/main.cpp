@@ -17,19 +17,31 @@ std::string askFile(std::fstream &fstream, const char* type, bool readMode){
 
 int main()
 {
+    int line;
     std::fstream input, output;
+    std::string filename;
+    try {
+        filename = askFile(input, "Input", true); // Название файла необходимо для повторного открытия в конце
+        askFile(output, "Output", false);
+    } catch (const char* exception) {
+        std::cout << "Error: " << exception;
+        return 1;
+    }
 
-    auto filename = askFile(input, "Input", true); // Название файла необходимо для повторного открытия в конце
-    askFile(output, "Output", false);
+
+    do {
+        std::cout << "Line length: \t";
+        std::cin >> line;
+    } while (line<=0);
 
     int s;
     int n;
-    for (n = 0; (s = input.get()) != EOF; n += 16) {
+    for (n = 0; (s = input.get()) != EOF; n += line) {
         output << std::left << std::setfill('0') << std::internal
         << std::setw(16) << std::hex << n << ":" << std::setfill(' ') << std::right; // Волшебные слова из референса
         bool flag = false; // Если flag = true, значит мы дошли до конца, и нужно записать пробелы
-        for (int i = 0; i < 16; ++i) {
-            if (i == 8) output << " |";
+        for (int i = 0; i < line; ++i) {
+            if (i%8 == 0) if (i!=0) output << " |";
             if (flag) {
                 output << "   ";
                 continue;
@@ -45,7 +57,7 @@ int main()
         }
         output << "  ";
         input.seekg(n, std::ios::beg);
-        for (int i = 0; i < 16; ++i) {
+        for (int i = 0; i < line; ++i) {
             s = input.get();
             if (s <= 33) output.put('_');
             else output.put(s);
