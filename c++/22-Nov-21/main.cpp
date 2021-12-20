@@ -15,7 +15,6 @@ std::string askFile(std::fstream &fstream, const char* type, bool readMode){
     return file;
 }
 
-
 int main()
 {
     std::fstream input, output;
@@ -40,28 +39,18 @@ int main()
             if (s == EOF) flag = true;
         }
 
-        if (!flag) {
-            output << "  ";
-            input.seekg(-17, std::ios::cur);
-            for (int i = 0; i < 16; ++i) {
-                s = input.get();
-                if (s <= 33) output.put('_');
-                else output.put(s);
-            }
-            output << std::endl;
+        if (flag){
+            input.close(); // Такое чувство, что каретка не двигается после достижения конца, мне стоило попробовать сделать это через буффер
+            input.open(filename,std::ios::binary | std::ios::in);
         }
+        output << "  ";
+        input.seekg(n, std::ios::beg);
+        for (int i = 0; i < 16; ++i) {
+            s = input.get();
+            if (s <= 33) output.put('_');
+            else output.put(s);
+        }
+        output << std::endl;
     }
-
-    input.close(); // Такое чувство, что каретка не двигается после достижения конца, мне стоило попробовать сделать это через буффер
-    input.open(filename,std::ios::binary | std::ios::in);
-    output << "  ";
-    input.seekg(n, std::ios::beg);
-    for (int i = 0; i < 16; ++i) {
-        s = input.get();
-        if (s <= 33) output.put('_');
-        else output.put(s);
-    }
-    output << std::endl;
-
     return 0;
 }
