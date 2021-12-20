@@ -1,19 +1,20 @@
+#include <climits>
 #include "iostream"
 #include "string"
 #include "map"
 
-int first(int x){
+// 3n+1
+int func3n1(int x){
     static int max = x;
-    std::cout << x << "\t";
     if (max<x) max = x;
     if (x==1) return 1;
     if (x%2==0) x/=2;
     else x=x*3+1;
-    int result = first(x);
+    int result = func3n1(x);
     return max;
 }
 
-std::string second(int x, int base){
+std::string notation(int x, int base){
     std::string answer;
     for (char tmp=x%base; x!=0 ; x/=base, tmp=x%base) {
         if (tmp<=9) tmp +='0';
@@ -47,7 +48,7 @@ std::string Rim[]={
         "X^^^^^^"
 };
 
-std::string third(unsigned long long int x, int power = 0){
+std::string frim(unsigned long long int x, int power = 0){
     std::string answer;
     int flag = 0;
     int tmp = x % 10;
@@ -60,15 +61,15 @@ std::string third(unsigned long long int x, int power = 0){
         for (int i = 0; i < tmp; ++i) answer += Rim[power*2];
     }
     else answer += Rim[power*2] + Rim[power*2+1+flag];
-    if(x/10!=0) answer = third(x/10, power+1) + answer;
+    if(x/10!=0) answer = frim(x/10, power+1) + answer;
     return answer;
 }
 
 
 int main(){
-    std::cout << "\nMax:\t" << first(27) << std::endl;
-    std::cout << second(11, 16) << std::endl;
-    std::cout << ULLONG_MAX << ' ' << third(ULLONG_MAX) << "\t";
+    std::cout << "\n[func3n1] Max: \t" << func3n1(27) << std::endl;
+    std::cout << "[notation] \t" << notation(11, 16) << std::endl;
+    std::cout << "[frim] \t" << ULLONG_MAX << ' ' << frim(ULLONG_MAX) << "\t";
 
     return 0;
 }

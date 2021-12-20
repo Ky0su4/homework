@@ -1,0 +1,3 @@
+/home/kyosu/CLionProjects/homework/c++/22-Nov-21/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/kyosu/CLionProjects/homework/c++/22-Nov-21/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/kyosu/CLionProjects/homework/c++/22-Nov-21/cmake-build-debug/CMakeFiles/22_Nov_21.dir

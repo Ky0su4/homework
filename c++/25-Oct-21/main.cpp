@@ -160,11 +160,6 @@ int fifth(std::vector<int> vector){
 }
 
 int main() {
-    //std::setlocale(LC_CTYPE, "");
-    system("chcp 65001");
-
-
-
     std::cout << first({25, 02, 2072}, 1) << std::endl;
     std::cout << second(13, 4) << std::endl;
     std::cout << third(420) << std::endl;
