@@ -22,10 +22,22 @@ int main()
     std::string filename;
     try {
         filename = askFile(input, "Input", true); // Название файла необходимо для повторного открытия в конце
-        askFile(output, "Output", false);
     } catch (const char* exception) {
         std::cout << "Error: " << exception;
         return 1;
+    }
+
+    try {
+        askFile(output, "Output", false);
+    } catch (const char* exception) {
+        std::cout << "Error: " << exception << "\nTrying to open output.txt as output...\n";
+        output.open("output.txt", std::ios::binary | std::ios::out | std::ios::trunc);
+        if (!output) {
+            std::cout << "Error: unable to open fallback file, exit!";
+            return 1;
+        } else {
+            std::cout << "Success!\n";
+        }
     }
 
 
@@ -38,10 +50,10 @@ int main()
     int n;
     for (n = 0; (s = input.get()) != EOF; n += line) {
         output << std::left << std::setfill('0') << std::internal
-        << std::setw(16) << std::hex << n << ":" << std::setfill(' ') << std::right; // Волшебные слова из референса
+        << std::setw(16) << std::hex << n << " ┃" << std::setfill(' ') << std::right; // Волшебные слова из референса к iomanip
         bool flag = false; // Если flag = true, значит мы дошли до конца, и нужно записать пробелы
         for (int i = 0; i < line; ++i) {
-            if (i%8 == 0) if (i!=0) output << " |";
+            if (i%8 == 0) if (i!=0) output << " │";
             if (flag) {
                 output << "   ";
                 continue;
@@ -55,11 +67,11 @@ int main()
             input.close(); // Такое чувство, что каретка не двигается после достижения конца, мне стоило попробовать сделать это через буффер
             input.open(filename,std::ios::binary | std::ios::in);
         }
-        output << "  ";
+        output << " ┃ ";
         input.seekg(n, std::ios::beg);
         for (int i = 0; i < line; ++i) {
             s = input.get();
-            if (s <= 33) output.put('_');
+            if (s <= 33) output.put('.');
             else output.put(s);
         }
         output << std::endl;
