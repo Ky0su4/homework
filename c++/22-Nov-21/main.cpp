@@ -30,7 +30,10 @@ int main()
     try {
         askFile(output, "Output", false);
     } catch (const char* exception) {
-        std::cout << "Error: " << exception << "\nTrying to open output.txt as output...\n";
+        std::cout << "Error: " << exception << "\nShould output.txt be cleared and opened as an output file? (y/n)\n";
+        char yesno;
+        std::cin >> yesno;
+        if (yesno!='y') return 1;
         output.open("output.txt", std::ios::binary | std::ios::out | std::ios::trunc);
         if (!output) {
             std::cout << "Error: unable to open fallback file, exit!";
