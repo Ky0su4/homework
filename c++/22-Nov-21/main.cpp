@@ -40,7 +40,7 @@ int main()
                 flag = true;
             }
         }
-        std::cout << " |";
+        output << " |";
         for (int i = 0; i < 8; ++i) {
             if (flag) {
                 output << "   ";
