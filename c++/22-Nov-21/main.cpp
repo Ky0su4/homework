@@ -43,25 +43,23 @@ int main()
         if (!output) {
             std::cout << "Error: unable to open fallback file, exit!";
             return 1;
-        } else {
+        } else
             std::cout << "Success!\n";
-        }
     }
-
 
     do {
         std::cout << "Line length: \t";
         std::cin >> line;
     } while (line<=0);
 
-    int s;
-    int n;
+    int s, n;
+
     for (n = 0; (s = input.get()) != EOF; n += line) {
         output << std::left << std::setfill('0') << std::internal
-        << std::setw(16) << std::hex << n << " ┃" << std::setfill(' ') << std::right; // Волшебные слова из референса к iomanip
-        bool flag = false; // Если flag = true, значит мы дошли до конца, и нужно записать пробелы
+        << std::setw(16) << std::hex << n << ": " << std::setfill(' ') << std::right; // Из референса к iomanip
+        bool flag = false; // Если flag = true, значит мы дошли до конца, и необходимо записать пробелы
         for (int i = 0; i < line; ++i) {
-            if (i%8 == 0) if (i!=0) output << " │";
+            if (i%8 == 0) if (i!=0) output << " |";
             if (flag) {
                 output << "   ";
                 continue;
@@ -75,7 +73,7 @@ int main()
             input.close(); // Такое чувство, что каретка не двигается после достижения конца, мне стоило попробовать сделать это через буффер
             input.open(filename,std::ios::binary | std::ios::in);
         }
-        output << " ┃ ";
+        output << "  ";
         input.seekg(n, std::ios::beg);
         for (int i = 0; i < line; ++i) {
             s = input.get();
